@@ -1,0 +1,145 @@
+* Comment lines begin with a *
+* Phase detector options, choose dff, pfd, pd_windowed, exor, none_vpd=1,
+* none_vpd=0, hogge, alexander
+*
+phase_detector: pfd
+*
+* Phase detector related inputs (not all are used for each phase detector)
+*
+tauff(sec): 1E-11
+tauh(sec): 1E-11
+taucp_min(sec): 1E-12
+pfd_deadzone(ui): 0
+*
+* pd_windowed phase detector related inputs
+*
+tw(sec): <Enter width of window>
+tacq_max(sec): <Enter maximum allowed acquisition time in sec>
+*
+* CDR phase detector options
+*
+* Phase threshold beyond which amplitude of Alexander phase detector saturates
+*
+alexander_phase_detector_phase_threshold(UI): <Enter positive threshold in UI or the word default>
+*
+* VCO related inputs
+*
+fo(VCO_freq_in_Hz): 12e9
+vco_clock_duty_cycle(fo): 0.4
+*
+* Choose model for control voltage characteristic
+* polynomial or poly allows up to ninth order polynomial deltaf = c0 + c1*vc +c2*vc +...c8*vc
+* tanh function requires four coefficients deltaf = c0 + c1*tanh(c2*(vc-c3))
+*
+vco_control_voltage_model: poly
+vc_polynomial_coeff(hz/V): -0.036984,0.087021
+*
+* Example kvco = c1*fo = 2.0*500e6 = 1.0 GHz/V
+* Vco = -(c0/c1) = -(-1/2) = 0.5 V
+*
+vco_bandwidth(Hz): 40000000
+*
+* Clock or data input parameters
+*
+fin(input_freq_in_Hz): 100000000
+feedback_divider: 120
+feedback_divider_delay(sec): 0
+*
+* Feedback clock duty cycle (not used if divider is 1.0)
+*
+feedback_divider_clock_duty_cycle: 0.1
+*
+* Input data pattern (single bit per line, text file)
+*
+filename_with_input_data_pattern: <Enter filename containing input data pattern>
+*
+* Enter type of noise on input (gaussian or uniform)
+* random_noise_sigma is sigma for gaussian
+* noise, and for uniform noise range of [-sigma,+sigma]
+*
+noise_type: <Enter choice for noise type>
+random_noise_sigma(UI_on_fin): 0
+noise_bandwidth(Hz): <Enter bandwidth of input noise in Hz>
+*
+* Add sinusoidal jitter or perform jitter transfer
+*
+jitter_amp(UIpp): 0
+jitter_freqs(Hz): 0
+*
+* Initial phase of input 
+*
+phase0(degrees): 0
+*
+* Start and stop times of printed output, sinusoidal input jitter starts at TSTART_jt
+*
+TSTART(sec): 0
+TSTART_jt(sec): 0.000002
+TSTOP(sec): 0.000002
+*
+* Enter desired timestep or the word "default"
+*
+deltat(sec): 1E-13
+*
+* Enter desired lock detector time constant - enter 0 for no lock detector function
+*
+lock_detect_tau(sec): 100e-09
+*
+* Enter phase-lock detector thresholds (used if lock detector time constant > 0)
+*
+lock_detect_delta_vc_limit(%): default
+lock_detect_rphase_pp_limit(UIpp): default
+lock_detect_rphase_pp_loss_lock_limit(UIpp): default
+*
+* Enter desired number of points to save
+*
+number_of_print_points: 5001
+*
+* Inputs for phase or frequency step
+*
+phase_freq_step_time(sec): 1
+phase_step(sec): 0
+freq_step(ppm): 0
+*
+* Inputs for application of SSC
+*
+ssc_start_time(sec): 1
+max_pos_ssc(ppm): 0
+max_neg_ssc(ppm): 0
+freq_ssc(Hz): 0
+*
+* Phase detector and loop filter inputs
+*
+phase_detector_logic_hi(V): 600
+phase_detector_logic_low(V): -600
+signal_source_vs1(v): 0
+signal_source_vs2(v): 0
+power_supply_max(V): 0.85
+power_supply_min(V): 0
+rs1(ohms): 1E+12
+rs2(ohms): 1E+12
+R1(ohms): 1000000
+RZERO(ohms): 12000
+R3(ohms): 1
+C1(farads): 2.407E-11
+C2(farads): 3.6E-13
+initvc(V): 0.2
+*
+* Output filename and format (csv only)
+*
+output_base_filename: sample_gnuplot_output_file_v1p76
+*
+* Optionally plot output characteristics and vco control voltage characteristics.
+* Enter value of zero to omit all plots or any non-zero value to create plots.
+* Note - plotting requires Octave or gnuplot be installed. The value of plot_outputs
+* is forced to zero if one or the other programs is not installed
+*
+plot_outputs: 1
+*
+* Enter preferred plotting tool of octave or gnuplot
+* Plots will be created using preferred plotting tool if
+* the executable is found.
+*
+plot_preference: gnuplot
+*
+* End of trans_pll inputs
+*

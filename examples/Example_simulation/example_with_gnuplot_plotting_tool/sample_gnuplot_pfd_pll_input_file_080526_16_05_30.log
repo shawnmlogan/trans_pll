@@ -1,0 +1,40 @@
+
+trans_pll v1.76 7/18/2026
+
+Input filename: sample_gnuplot_pfd_pll_input_file.txt
+Output filename: sample_gnuplot_output_file_v1p76_080526_16_05_30.csv
+Phase-frequency detector deadzone = 0.00 UI
+Value of deltat is 1.00e-13
+Data will be printed every 400.0000 ps.
+Sample signals every 1000000 time points to determine lock status (100.000 ns)
+Lock detect thresholds:
+	Control voltage tolerance about center voltage for phase-lock: 100.0 m%
+	Relative phase tolerance for phase-lock: 150.0 mUI
+	Relative phase threshold to declare loss of phase-lock: 300.0 mUI
+Using polynomial of degree 1 to approximate VCO transfer curve.
+Time = 0.000 s   0 % complete, Vc = 200.000 mV
+	Averages: vc = 200.000 mV (deltaV = -52.94 %), relative phase = 0.000 UI (0.000 UIpp).
+Time = 200.000 ns  10 % complete, Vc = 342.817 mV
+	Averages: vc = 433.549 mV (deltaV = 2.01 %), relative phase = -19.548 mUI (7.579 mUIpp).
+Time = 400.000 ns  20 % complete, Vc = 385.392 mV
+	Averages: vc = 429.341 mV (deltaV = 1.02 %), relative phase = -9.419 mUI (3.841 mUIpp).
+Time = 600.000 ns  30 % complete, Vc = 405.962 mV
+	Averages: vc = 427.102 mV (deltaV = 494.54 m%), relative phase = -4.521 mUI (1.854 mUIpp).
+Time = 800.000 ns  40 % complete, Vc = 415.853 mV
+	Averages: vc = 426.006 mV (deltaV = 236.62 m%), relative phase = -2.166 mUI (886.078 uUIpp).
+Time = 1000.000 ns  50 % complete, Vc = 420.604 mV
+	Averages: vc = 425.484 mV (deltaV = 113.86 m%), relative phase = -1.036 mUI (426.040 uUIpp).
+Lock detected at time 1.1000 us.
+Time = 1.200 us  60 % complete, Vc = 422.895 mV
+	Averages: vc = 425.233 mV (deltaV = 54.94 m%), relative phase = -494.883 uUI (204.564 uUIpp).
+Time = 1.400 us  70 % complete, Vc = 423.984 mV
+	Averages: vc = 425.108 mV (deltaV = 25.44 m%), relative phase = -245.512 uUI (94.650 uUIpp).
+Time = 1.600 us  80 % complete, Vc = 424.332 mV
+	Averages: vc = 424.990 mV (deltaV = -2.28 m%), relative phase = -123.390 uUI (44.344 uUIpp).
+Time = 1.800 us  90 % complete, Vc = 424.684 mV
+	Averages: vc = 425.015 mV (deltaV = 3.58 m%), relative phase = -108.993 uUI (34.399 uUIpp).
+Time = 2.000 us 100 % complete, Vc = 424.860 mV
+	Averages: vc = 425.047 mV (deltaV = 11.10 m%), relative phase = -96.871 uUI (45.645 uUIpp).
+Maximum CLKIN duty cycle = 50.00 % (± 1.0 m%), Minimum CLKIN duty cycle = 50.00 % (± 1.0 m%) (difference of 2.0 m%)
+Done! Last phase-lock event observed at about 1.1000 us.
+Elapsed time: 14.991179 seconds
