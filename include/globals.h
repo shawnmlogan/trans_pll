@@ -433,4 +433,4 @@ double s5 = 277.0/14336.0;
 double s6 = 1.0/4.0;
 #endif
 
-#define PLOTTING_ROUTINES_DIR "/Users/sml/cproj/trans_pll/v1p76_071826"
+#define PLOTTING_ROUTINES_DIR "/Users/sml/cproj/trans_pll/trans_pll_v1p76_071826"
