@@ -42,13 +42,14 @@ else
 	fprintf(fpw1,"vco_clock_duty_cycle(fo): <Enter duty cycle of VCO as a fraction of 1.0 (0.50 => 50%%)>\n");
 	fprintf(fpw1,"*\n");
 	fprintf(fpw1,"* Choose model for control voltage characteristic\n");
-	fprintf(fpw1,"* \"polynomial\" or \"poly\" allows up to ninth order polynomial deltaf = c0 + c1*vc +c2*vc +...c8*vc\n");
+	fprintf(fpw1,"* \"polynomial\" or \"poly\" allows up to ninth order polynomial deltaf = c0 + c1*vc +c2*vc^2 +...c8*vc^8\n");
 	fprintf(fpw1,"* \"tanh\" function requires four coefficients deltaf = c0 + c1*tanh(c2*(vc-c3))\n");
 	fprintf(fpw1,"*\n");
 	fprintf(fpw1,"vco_control_voltage_model: <Enter choice for VCO control voltage model>\n");
-	fprintf(fpw1,"vc_polynomial_coeff(hz/V): <Enter VCO control voltage polynomial coefficients as comma-separated list> \n");
+	fprintf(fpw1,"vc_polynomial_coeff(/V): <Enter VCO control voltage polynomial coefficients as comma-separated list> \n");
 	fprintf(fpw1,"*\n");
-	fprintf(fpw1,"* Example kvco = c1*fo = 2.0*500e6 = 1.0 GHz/V\n");
+	fprintf(fpw1,"* Example with fo = 500 MHz, Vco = 500 mV, deltaf (normalized to VCO frequency) = -1.0 + 2.0*vc\n");
+	fprintf(fpw1,"* kvco = c1*fo = 2.0*500e6 = 1.0 GHz/V\n");
 	fprintf(fpw1,"* Vco = -(c0/c1) = -(-1/2) = 0.5 V\n");
 	fprintf(fpw1,"*\n");
 	fprintf(fpw1,"vco_bandwidth(Hz): <Enter modulation bandwidth of VCO in Hz>\n");
