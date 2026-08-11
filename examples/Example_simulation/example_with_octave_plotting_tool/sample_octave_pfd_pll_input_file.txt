@@ -34,7 +34,8 @@ vco_clock_duty_cycle(fo): 0.4
 vco_control_voltage_model: poly
 vc_polynomial_coeff(hz/V): -0.036984,0.087021
 *
-* Example kvco = c1*fo = 2.0*500e6 = 1.0 GHz/V
+* Example with fo = 500 MHz, Vco = 500 mV, deltaf (normalized to VCO frequency) = -1.0 + 2.0*vc
+* kvco = c1*fo = 2.0*500e6 = 1.0 GHz/V
 * Vco = -(c0/c1) = -(-1/2) = 0.5 V
 *
 vco_bandwidth(Hz): 40000000
