@@ -11,8 +11,8 @@
 
 /*Add #defines for version number*/
 
-#define VERSION_NUMBER	1.76
-#define VERSION_DATE "7/18/2026"
+#define VERSION_NUMBER	1.77
+#define VERSION_DATE "8/11/2026"
 
 /*Add defines for debugging*/
 
