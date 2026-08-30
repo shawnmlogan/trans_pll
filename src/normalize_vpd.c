@@ -9,17 +9,23 @@ plog_string = &log_string[0];
 
 if (vpd == pdatain->logic_lo_pdsignal)
 	{
-	vpd_normalized = vpd/fabs(pdatain->logic_lo_pdsignal);
+	if (pdatain->logic_lo_pdsignal != 0.0)
+		vpd_normalized = vpd/fabs(pdatain->logic_lo_pdsignal);
+	else
+		vpd_normalized = vpd;
 	}
 else
 	{
 	if (vpd == pdatain->logic_hi_pdsignal)
 		{
-		vpd_normalized = vpd/fabs(pdatain->logic_hi_pdsignal);
+		if (pdatain->logic_hi_pdsignal != 0.0)
+			vpd_normalized = vpd/fabs(pdatain->logic_hi_pdsignal);
+		else
+			vpd_normalized = vpd;
 		}
 	else
 		{
-		if (vpd == pdatain->logic_lo_pdsignal + pdatain->logic_hi_pdsignal)
+		if ((vpd == pdatain->logic_lo_pdsignal + pdatain->logic_hi_pdsignal) && (pdatain->logic_lo_pdsignal == 0.0 - pdatain->logic_hi_pdsignal) && (pdatain->logic_lo_pdsignal != 0.0) && (pdatain->logic_hi_pdsignal != 0.0))
 			vpd_normalized = 0.0;
 		else
 			{
