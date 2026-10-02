@@ -32,15 +32,20 @@ switch (deltat_set_flag)
 	   break;
 	case 5:
 	   snprintf(plog_string,LOGFILE_LINELENGTH,
-	   "Value of deltat set by the value of input variable tauff.\n");
+	   "Value of deltat set by the value of input variable taucp_min.\n");
 	   print_string_to_log(plog_string,pdatain);
 	   break;
 	case 6:
 	   snprintf(plog_string,LOGFILE_LINELENGTH,
-	   "Value of deltat set by the width of phase detector deadzone.\n");
+	   "Value of deltat set by the value of input variable tauff.\n");
 	   print_string_to_log(plog_string,pdatain);
 	   break;
 	case 7:
+	   snprintf(plog_string,LOGFILE_LINELENGTH,
+	   "Value of deltat set by the width of phase detector deadzone.\n");
+	   print_string_to_log(plog_string,pdatain);
+	   break;
+	case 8:
 	   snprintf(plog_string,LOGFILE_LINELENGTH,
 	   "Value of deltat set by feedback clock delay time.\n");
 	   print_string_to_log(plog_string,pdatain);

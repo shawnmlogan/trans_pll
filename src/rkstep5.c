@@ -82,7 +82,7 @@ psig->vpd,psig->vc1,psig->vc2);*/
    + b65*k5,psig->vc2 + b61*l1 + b62*l2 + b63*l3 + b64*l4 + b65*l5);
    /*printf("Value of freq = %6.4e\n",fo*(1 + deltaf(psig->vc2)));*/
 
-   j1 = j2 = j3 = j4 = j5 = j6 = (h * 2.0 * pi * fo*(1 +   deltaf_vco(psig->vco,vc_model,pvco,degree_of_polynomial)));
+   j1 = j2 = j3 = j4 = j5 = j6 = (h * 2.0 * pi * fo*(1 + deltaf_vco(psig->vco,vc_model,pvco,degree_of_polynomial)));
 
 /*Compute next value and error*/
 
@@ -105,14 +105,18 @@ psig->vpd,psig->vc1,psig->vc2);*/
       error = fabs(signew.vc1 - signewb.vc1);
       maxerror = fabs(errmax + fabs(h*dvc1));
       newstep = h * pow(maxerror/error, 0.25);
-      /*printf("case 1, error = %4.2e maxerror = %4.2e\n",error,maxerror);*/
+      #ifdef DEBUG_RKSTEP5
+      	printf("case 1, error = %4.2e maxerror = %4.2e\n",error,maxerror);
+      #endif
       }
    if (fabs(signew.vc2 - signewb.vc2) > fabs(errmax + fabs(h*dvc2)))
       {
       reducestep = 1;
       error = fabs(signew.vc2 - signewb.vc2);
       maxerror = fabs(errmax + fabs(h*dvc2));
-      /*printf("case 2, error = %4.2e maxerror = %4.2e\n",error,maxerror);*/
+      #ifdef DEBUG_RKSTEP5
+      	printf("case 2, error = %4.2e maxerror = %4.2e\n",error,maxerror);
+      #endif
       if (h * pow(maxerror/error, 0.25) < newstep)
          {
          newstep = h * pow(maxerror/error, 0.25);
@@ -123,9 +127,11 @@ psig->vpd,psig->vc1,psig->vc2);*/
       reducestep = 1;
       error = fabs(signew.phaseo - signewb.phaseo);
       maxerror = 2*pi/10;
-      /*printf("iter = %d, h = %4.2e, j6 = %4.2e\n, freq =%6.4e",iter,h,j6,
-      fo*(1 + deltaf(psig->vc2)));
-      printf("case 3, error = %4.2e maxerror = %4.2e\n",error,maxerror);*/
+      #ifdef DEBUG_RKSTEP5
+      	printf("iter = %d, h = %4.2e, j6 = %4.2e\n, freq =%6.4e",iter,h,j6,
+      	fo*(1 +  deltaf_vco(psig->vco,vc_model,pvco,degree_of_polynomial)));
+      	printf("case 3, error = %4.2e maxerror = %4.2e\n",error,maxerror);
+      #endif
       if (h * pow(maxerror/error, 0.25) < newstep)
          {
          newstep = h * pow(maxerror/error, 0.25);
@@ -143,24 +149,26 @@ psig->vpd,psig->vc1,psig->vc2);*/
 	
       if (i >= iter ) 
          {
-         printf("Iteration limit exceeded at time %2.4e, execution stopped!\n",
-         time);
-         printf("Reduced timestep %d times and maximum error was still too large.\n",
-         iter);
+         #ifdef DEBUG_RKSTEP5
+         	printf("Iteration limit exceeded at time %2.4e, execution stopped!\n",
+         	time);
+         	printf("Reduced timestep %d times and maximum error was still too large.\n",
+         	iter);
+         #endif
          status=1;
          return(status);
          }	
       /*Reduce timestep to appropriate value depending on measured error,
       do not allow stepsize to be reduced more than a factor of 10*/
       
-      /*printf("Step size reduced from deltat = %2.4e",h);*/
+      /* printf("Step size reduced from deltat = %2.4e",h); */
       
 	  if (newstep < h/10.0)
 	     h = h/10.0;
 	  else
 	     h = newstep;
 	     
-     /* printf(" to %2.4e seconds\n",h);*/
+     /* printf(" to %2.4e seconds\n",h); */
   
       i++;
       }
@@ -191,25 +199,63 @@ psig->vpd,psig->vc1,psig->vc2);*/
       printf(" at time = %4.2e\n",time);*/
 
       /*Compute value of vc*/
-      psig->vc = psig->vc2 + (pw->c11)*f2(pw,psig->vs1,psig->vs2,psig->vpd,psig->vc1,psig->vc2);      
+   
+      psig->vc = (pw->c11)*(psig->vc1) + (pw->c12)*(psig->vc2) + (pw->c13)*(psig->vpd);
+        
 /*if (count % 1000 == 0)
    printf("In rkstep5, sig->vc = %.3f.\n",psig->vc);*/
 
       /*Limit signal value at vc to vcmax and vcmin*/
 
       if (psig->vc > vmax)
+      	{
+      	#ifdef DEBUG_RKSTEP5
+        		printf("Limiting value of psig->vc, %1.2e, to vmax (%.2f) at time = %1.12e.\n",
+         	psig->vc,vmax,time);
+         #endif
          psig->vc = vmax;
+         }
       if (psig->vc < vmin)
+      	{
+      	#ifdef DEBUG_RKSTEP5
+	         printf("Limiting value of psig->vc, %1.2e, to vmin (%.2f) at time = %1.12e.\n",
+	         psig->vc,vmin,time);
+         #endif
          psig->vc = vmin;
+         }
       if (psig->vc1 > vmax)
-         psig->vc1 = vmax;
+      	{
+      	#ifdef DEBUG_RKSTEP5
+	         printf("Limiting value of psig->vc1, %1.2e, to vmax (%.2f) at time = %1.12e.\n",
+	         psig->vc1,vmax,time);
+         #endif
+			psig->vc1 = vmax;
+         }
       if (psig->vc1 < vmin)
+      	{
+      	#ifdef DEBUG_RKSTEP5       
+	      	printf("Limiting value of psig->vc1, %1.2e, to vmin (%.2f) at time = %1.12e.\n",
+	         psig->vc1,vmin,time);
+         #endif
          psig->vc1 = vmin;
-
+         }
       if (psig->vc2 > vmax)
+      	{
+      	#ifdef DEBUG_RKSTEP5       
+	         printf("Limiting value of psig->vc2, %1.2e, to vmax (%.2f) at time = %1.12e.\n",
+	         psig->vc2,vmax,time);
+         #endif
          psig->vc2 = vmax;
+         }
       if (psig->vc2 < vmin)
+      	{
+      	#ifdef DEBUG_RKSTEP5
+	         printf("Limiting value of psig->vc2, %1.2e, to vmin (%.2f) at time = %1.12e.\n",
+	         psig->vc2,vmin,time);
+         #endif
          psig->vc2 = vmin;
+         }
+
 
       }
 		

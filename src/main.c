@@ -279,6 +279,26 @@ print_string_to_log(plog_string,pdatain);
 snprintf(plog_string,LOGFILE_LINELENGTH,"Input filename: %s\n",pdatain->pinput_filename);
 print_string_to_log(plog_string,pdatain);
 
+if (select_second_order_filter_coefficents(pdatain->R2,pdatain->R3,pdatain->C1,pdatain->C2) == TRUE)
+	{
+   snprintf(plog_string,LOGFILE_LINELENGTH,
+   "Choosing second-order loop filter based on loop filter component values.\n");
+   print_string_to_log(plog_string,pdatain);
+   }
+else
+	{
+   snprintf(plog_string,LOGFILE_LINELENGTH,
+   "Choosing first-order loop filter based on loop filter component values\n");
+   print_string_to_log(plog_string,pdatain);
+   snprintf(plog_string,LOGFILE_LINELENGTH,
+   "R2 = %s, R3 = %s, and C2 = %1.3e F\n",
+   add_units(pdatain->R2,3,"ohms",value_string[0]),
+   add_units(pdatain->R3,3,"ohms",value_string[1]),
+   pdatain->C2);
+   print_string_to_log(plog_string,pdatain);
+   }
+
+
 /* Create filename for VCO characteristic */
 
 sprintf(pcontrol_voltage_filename, "delta_f_vs_vc_%s.csv",ptimestamp);
@@ -484,17 +504,17 @@ for (loop=0; loop < pdatain->number_of_jitter_freq; loop++)
    	if ((pdatain->deltat > pdatain->taucp_min) && (pdatain->taucp_min != 0.0))
    		{
 			pdatain->deltat = pdatain->taucp_min;
-			deltat_set_flag = 4;
+			deltat_set_flag = 5;
 			}
    	if ((pdatain->deltat > pdatain->tauff) && (pdatain->tauff != 0.0))
    		{
 			pdatain->deltat = pdatain->tauff;
-			deltat_set_flag = 5;
+			deltat_set_flag = 6;
 			}
    	if ((pdatain->deltat > pdatain->pfd_dff_deadzone_ui) && (pdatain->pfd_dff_deadzone_ui != 0.0))
    		{
 			pdatain->deltat = pdatain->pfd_dff_deadzone_ui * (1.0/pdatain->fin);
-			deltat_set_flag = 6;
+			deltat_set_flag = 7;
 			}
 		snprintf(plog_string,LOGFILE_LINELENGTH,"Phase-frequency detector deadzone = %s\n",
 		add_units(pdatain->pfd_dff_deadzone_ui,2,"UI",value_string[0]));
@@ -503,12 +523,12 @@ for (loop=0; loop < pdatain->number_of_jitter_freq; loop++)
    if ((pdatain->pd == DFF) && (pdatain->deltat > pdatain->tauff) && (pdatain->tauff != 0.0))
    	{
 		pdatain->deltat = pdatain->tauff;
-		deltat_set_flag = 5;
+		deltat_set_flag = 6;
 		}		
 	if ((pdatain->D_delay > 0.0) && (pdatain->deltat > pdatain->D_delay/10.0))
 		{
 		pdatain->deltat = pdatain->D_delay/10.0;
-		deltat_set_flag = 5;
+		deltat_set_flag = 8;
 		}
 
 	if (pdatain->pd == PD_ALEXANDER)
@@ -757,7 +777,7 @@ for (loop=0; loop < pdatain->number_of_jitter_freq; loop++)
    sig.vc1 = pdatain->initvc;
    sig.vc2 = pdatain->initvc;
    sig.vc = pdatain->initvc;
-   sig.vco = sig.vc2;
+   sig.vco = sig.vc;
    time0 = 0.0 - k0 * (1.0/fo);
   
   /*Initialize data array vdata[] and numperiods if using data recovery phase detector*/
@@ -884,8 +904,7 @@ for (loop=0; loop < pdatain->number_of_jitter_freq; loop++)
 	            exit(0);
 	         }
 	      
-	      if(rkstep1(time,time+pdatain->deltat,tau_noise_bandwidth_sec,noise,&filtered_noise,10.0,
-         -10.0,errmax,MAX_ITERATIONS) == 1)
+	      if(rkstep1(time,time+pdatain->deltat,tau_noise_bandwidth_sec,noise,&filtered_noise,10.0,-10.0,errmax,MAX_ITERATIONS) == 1)
             {
             snprintf(plog_string,LOGFILE_LINELENGTH,
             "Error in runge-kutta routine for noise, program exits!\n");
@@ -1324,8 +1343,8 @@ for (loop=0; loop < pdatain->number_of_jitter_freq; loop++)
       /*Add effect of VCO pole with time constant pdatain->tau. Add as isolated pole as often some stages exist between
             loop filter and varactor (which sets pole)*/
             
-     if(rkstep1(time,time+pdatain->deltat,pdatain->vco_tau,psig->vc2,&(sig.vco),pdatain->logic_hi_pdsignal,
-      pdatain->logic_lo_pdsignal,errmax,MAX_ITERATIONS) == 1)
+     if(rkstep1(time,time+pdatain->deltat,pdatain->vco_tau,psig->vc,&(sig.vco),pdatain->vmax,
+      pdatain->vmin,errmax,MAX_ITERATIONS) == 1)
          {
          snprintf(plog_string,LOGFILE_LINELENGTH,"Error in runge-kutta routine for vco, program exits!\n");
          print_string_to_log(plog_string,pdatain);

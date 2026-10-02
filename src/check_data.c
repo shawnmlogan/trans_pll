@@ -519,7 +519,8 @@ if (pdatastruct->lock_detect_tau != INIT_VAL)
 		{
 		if ((pdatastruct->lock_detect_tau <= pdatastruct->deltat) && (pdatastruct->lock_detect_tau != 0.0))
 		   {
-		   printf("A lock detector time constant of less or equal to the time step %s was entered...\n",add_units(pdatastruct->deltat,3,"s",pvalue_string));
+		   printf("A lock detector time constant of less or equal to the time step %s was entered...\n",
+		   add_units(pdatastruct->deltat,3,"s",pvalue_string));
 		   return EXIT_FAILURE;
 		   }
 		}
@@ -588,10 +589,8 @@ if ((check_double_positive_non_zero(pdatastruct->R1,"R1",&loop_filter_element_st
 || (check_double_positive_non_zero(pdatastruct->R3,"R3",&loop_filter_element_status) == FALSE) \
 || (check_double_positive_non_zero(pdatastruct->RS1,"RS1",&loop_filter_element_status) == FALSE) \
 || (check_double_positive_non_zero(pdatastruct->RS2,"RS2",&loop_filter_element_status) == FALSE) \
-|| (check_double_positive_non_zero(pdatastruct->C1,"C1",&loop_filter_element_status) == FALSE) \
-|| (check_double_positive_non_zero(pdatastruct->C2,"C2",&loop_filter_element_status) == FALSE))
+|| (check_double_positive_non_zero(pdatastruct->C1,"C1",&loop_filter_element_status) == FALSE))
 	return EXIT_FAILURE;
-
 
 /*Verify that plotting tool preference is valid and assign value*/
 
