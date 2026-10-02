@@ -11,8 +11,8 @@
 
 /*Add #defines for version number*/
 
-#define VERSION_NUMBER	1.78
-#define VERSION_DATE "8/30/2026"
+#define VERSION_NUMBER	1.80
+#define VERSION_DATE "9/28/2026"
 
 /*Add defines for debugging*/
 
@@ -33,6 +33,7 @@
 /* #define DEBUG_CLKIN_DUTY_CYCLE_VERBOSE */
 /* #define DEBUG_PARSESTRING_TO_DOUBLES_ARRAY */
 /* #define DEBUG_DIVIDED_CLOCKSTATE */
+/* define DEBUG_RKSTEP5 */
 
 /* Add option for BER detection and display if DETECT_AND_PRINT_BER is TRUE */
 
@@ -162,6 +163,8 @@ struct coeff {
 	double c9;
 	double c10;
 	double c11;
+	double c12;
+	double c13;
 	};
 
 struct filedata {
@@ -333,6 +336,9 @@ int rkstep1(double tinit,double tfinal,double tau,double vin,double *pvcap,
 double vmax, double vmin,double errmax,int iter);
 void compute(struct coeff *pw,double R1,double R2,double R3,double C1,double C2, 
 double RS1, double RS2,int ph);
+Boolean select_second_order_filter_coefficents(double R2,double R3,double C1,double C2);
+void compute_two_pole_filter_coefficients(struct coeff *pw,double R1,double R2,double R3,double C1,double C2,  double RS1, double RS2,int ph);
+void compute_single_pole_filter_coefficients(struct coeff *pw,double R1,double R2,double R3,double C1,double C2,double RS1,double RS2,int ph);
 
 /*VCO related functions*/
 
@@ -433,4 +439,4 @@ double s5 = 277.0/14336.0;
 double s6 = 1.0/4.0;
 #endif
 
-#define PLOTTING_ROUTINES_DIR "/Users/sml/cproj/trans_pll/trans_pll_v1p78_083026"
+#define PLOTTING_ROUTINES_DIR "/Users/sml/cproj/trans_pll/trans_pll_v1p80_092826"
